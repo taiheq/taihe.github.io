@@ -1,0 +1,21 @@
+#include<math.h>
+using namespace std;
+int sroot(int a) {
+	return (int)sqrt(a);
+}
+long int sroot(long int a) {
+	return sqrt(a);
+}
+double sroot(double a) {
+	return sqrt(a);
+}
+void main() {
+	int a=4,x;
+	long int b=16,y;
+	double c=255.000000000,z;
+	x=sroot(a);
+	y=sroot(b);
+	z=sroot(c);
+	cout << x << " " << y << "," << z << endl;
+	system("pause");
+}
