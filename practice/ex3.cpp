@@ -1,7 +1,3 @@
-﻿// ex3.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
-//
-
-#include "pch.h"
 #include <iostream>
 
 #include <ctime>
@@ -20,17 +16,14 @@ public:
 	}
 	~Tushuguan()      //析构函数, 显示书已经归还
 	{
-		cout << "1";
-		cout << " ***" << xszheng << " huan le " << shuhao << ". Jie chu shi jian=" << Jieleduojiu() << endl;
+		cout << "***" << xszheng << " huan le " << shuhao << ". Jie chu shi jian=" << Jieleduojiu() << endl;
 	}
 	double Jieleduojiu()
 	{
-		cout << "2";
 		return difftime(time(0), jieshijian);
 	} //借了多久=当前时间-借出时间
 	int Daoqi()
 	{
-		cout << "3";
 		int t = jieduojiu - Jieleduojiu();
 		if (t < 0) { cout << "***Guoqi***"; t = 0; }
 		return t;
@@ -42,17 +35,18 @@ int main()
 	int jl = 0;
 	while (1) {
 		int i, jq, xsz, sh ;
-		cout << "\n 1-Jieshu\n 2-Huan shu\n 3-cha xun\n Qita-tui chu\n";
+		cout << "\n 1-Jieshu\n 2-Huan shu\n 3-cha xun\n 4-chaxunyidaoqi\n Qita-tui chu\n";
 		cin >> i;
 		if (i == 1) {
 			cout << "\n  Jieduojiu Xueshengzheng Shuhao:";
-			//cin >> jq >> xsz >> sh;//   (4) 从键盘读入借书时长存入jq、读入学号存入xsz、读入书号存入sh;
-			jilu[jl] = new Tushuguan(12, 23, 34);   //(4) 用new新建一个对象，返回地址存入数组jilu
+			cin >> jq >> xsz >> sh;//   (4) 从键盘读入借书时长存入jq、读入学号存入xsz、读入书号存入sh;
+			jilu[jl] = new Tushuguan(jq,xsz,sh);   //(4) 用new新建一个对象，返回地址存入数组jilu
 			jl++;//   (4) 记录数自增1
 		}
 		else if (i == 2) {
-			delete [] jilu[jl];	//删除jilu所指向的对象
-			jl--;				//   (5) 记录数自减1
+            	jl--;				//   (5) 记录数自减1
+		delete jilu[jl];	//删除jilu所指向的对象
+
 		}
 		else if (i == 3) {
 			for (int j = 0; j < jl; j++)
@@ -61,6 +55,5 @@ int main()
 		}
 		else break;
 	}
-	system("pause");
 	return 0;
 }
