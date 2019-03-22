@@ -1,3 +1,4 @@
+
 #include <iostream>
 
 #include <ctime>
@@ -28,11 +29,12 @@ public:
 		if (t < 0) { cout << "***Guoqi***"; t = 0; }
 		return t;
 	}
+
 };
 int main()
 {
 	Tushuguan* jilu[100];
-	int jl = 0;
+	int jl = 0 , r ;
 	while (1) {
 		int i, jq, xsz, sh ;
 		cout << "\n 1-Jieshu\n 2-Huan shu\n 3-cha xun\n 4-chaxunyidaoqi\n Qita-tui chu\n";
@@ -44,8 +46,13 @@ int main()
 			jl++;//   (4) 记录数自增1
 		}
 		else if (i == 2) {
-            	jl--;				//   (5) 记录数自减1
-		delete jilu[jl];	//删除jilu所指向的对象
+            cout<<"Please enter the serial number you want to delete";
+            cin>>r;//jl--;				//   (5) 记录数自减1
+			delete jilu[r];	//删除jilu所指向的对象
+			for(r;r<jl;r++){
+                jilu[r]=jilu[r+1];
+			}
+			jl--;
 
 		}
 		else if (i == 3) {
