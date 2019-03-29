@@ -1,77 +1,78 @@
-// ex4.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
-#include "pch.h"
 #include <iostream>
 #include<string>
 using namespace std;
 class Caidan
 {
 private:
-	string Caiming;
-	int Jiage;
+    string Caiming;
+    int Jiage;
 public:
-	static int Jilu;	//±£´æ¼ÇÂ¼×ÜÊı
-	Caidan(string cm, int gz = 0)
-	{
-		Caiming = cm;
-		Jiage = gz;
-		Jilu++;
-	}
-	Caidan(const Caidan &n)//(1) Copy¹¹Ôìº¯Êı
-	{ Caiming = "[Jia]" + n.Caiming;
-		Jiage = n.Jiage;
-		Jilu++;
-	}
-		void Showjilu(int j)
-	{
-		cout << "\n No." << j << " " << Caiming<< " $" << Jiage;
-	}
-	void Gaijiage(int qian)
-	{
-		Jiage += qian;
-	}
+    static int Jilu;
+    Caidan(string cm,int gz=0)
+    {
+        Caiming=cm;
+        Jiage=gz;
+        Jilu++;
+    }
+    Caidan(const Caidan &n)
+    {
+        Caiming="[Jia]"+n.Caiming;
+        Jiage=n.Jiage;
+        Jilu++;
+    }
+    void Showjilu(int j)
+    {
+        cout<<"\nNo."<<j<<" "<<Caiming<<" &"<<Jiage;
+    }
+    void Gaijiage(int qian)
+    {
+        Jiage+=qian;
+    }
+
 };
-int Caidan::Jilu = 0; //(2)¾²Ì¬Êı¾İ³ÉÔ±³õÊ¼»¯
+
+int Caidan::Jilu=0;
 void ShowAll(Caidan* dcd[])
 {
-	for (int j = 0; j < Caidan::Jilu; j++)
-		dcd[j]->Showjilu(j);
-	cout << "\n----END-----\n";
-}
-void Gaijiage(Caidan dcd,int qian) //(3)Ïòº¯Êı´«µİ¶ÔÏó
-{
-	dcd.Gaijiage(qian);
-}
-int main()
-{
-	Caidan* Xiaofeijilu[100] = { new Caidan("JiTui",4), new Caidan("YaTui",4),
-							new Caidan("MiFan",1), new Caidan("QingCai",1) };
-	while (1)
-	{
-		int i, rmb;
-		cout << "\n 1-Gai Jia ge \n 2-Jia cai \n 3-Cha Xun\n Others-Tui chu\n>";
-		cin >> i;
-		if (i == 1)
-		{
-			ShowAll(Xiaofeijilu);
-			int sj;
-			cout << "\n> Gai Na Ge Jilu      Jia duo shao?";
-			cin >> sj >> rmb; //(4)´Ó¼üÅÌÊäÈëÁĞ±íĞòºÅ£¬
-			Gaijiage(Xiaofeijilu[sj],rmb);//(4)µ÷ÓÃGaijiageº¯ÊıĞŞ¸ÄÏû·Ñ¼ÇÂ¼
-		}
-		else if (i == 2)
-		{
-			int n, m;
-			cout << "\n> Jia Na Ge";
-			cin >> n;//(5)´Ó¼üÅÌÊäÈëÁĞ±íĞòºÅ£¬±£´æÔÚn
-			m = Caidan::Jilu;//(5)¼ÇÂ¼×ÜÊı±£´æÔÚm
-			Xiaofeijilu[m] = Xiaofeijilu[n];	//(5)½«n¶ÔÏóµÄÊôĞÔCopyµ½ĞòºÅÎªmµÄĞÂ½¨¶ÔÏó
-		}
-		else if (i == 3)
-			ShowAll(Xiaofeijilu);
-		else break;
-	}
-	return 0;
+    for(int j=0; j<Caidan::Jilu; j++)
+        dcd[j]->Showjilu(j);
+    cout<<"\n---END----\n";
 }
 
+void Gaijiage(Caidan* dcd,int qian)
+{
+    dcd->Gaijiage(qian);
+}
+
+int main()
+{
+    Caidan* Xiaofeijilu[100] = { new Caidan("JiTui",4), new Caidan("YaTui",4),
+                new Caidan("MiFan",1), new Caidan("QingCai",1)
+    };
+    while (1)
+    {
+        int i,rmb;
+        cout << "\n 1-Gai Jia Ge \n 2-Jia Cai \n 3-Cha Xun \n Others-Tui chu" << endl;
+        cin>>i;
+        if (i == 1)
+        {
+            ShowAll(Xiaofeijilu);
+            int sj;
+            cout << "\n> Gai Na Ge Jilu      Jia duo shao?";
+            cin >> sj >> rmb; //(4)ä»é”®ç›˜è¾“å…¥åˆ—è¡¨åºå·ï¼Œ
+            Gaijiage(Xiaofeijilu[sj],rmb);//(4)è°ƒç”¨Gaijiageå‡½æ•°ä¿®æ”¹æ¶ˆè´¹è®°å½•
+        }
+        else if (i == 2)
+        {
+            int n, m;
+            cout << "\n> Jia Na Ge";
+            cin >> n;//(5)ä»é”®ç›˜è¾“å…¥åˆ—è¡¨åºå·ï¼Œä¿å­˜åœ¨n
+            m = Caidan::Jilu;//(5)è®°å½•æ€»æ•°ä¿å­˜åœ¨m
+            Xiaofeijilu[m] = new Caidan(*Xiaofeijilu[n]);	//(5)å°†nå¯¹è±¡çš„å±æ€§Copyåˆ°åºå·ä¸ºmçš„æ–°å»ºå¯¹è±¡
+        }
+        else if (i == 3)
+            ShowAll(Xiaofeijilu);
+        else break;
+    }
+    return 0;
+}
