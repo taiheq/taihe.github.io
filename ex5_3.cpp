@@ -17,6 +17,7 @@ public:
 	int getnumber();
 	string getname();
 	void show();
+	
 };
 
 vipcustomer::vipcustomer() {
@@ -38,41 +39,41 @@ string vipcustomer::getname() {
 }
 
 void vipcustomer::show() {
-	cout << vip_num << vip_name << endl;
+	cout << "会员号： "<<vip_num << "会员名： " << vip_name << endl;
 }
 
 class product {
 private:
 
 public:
-	string product_name;
+	string product_name, product_num;
 	double product_price;
-	int product_num;
 	product();
-	product(int pd_num, string pd_name, double pd_price);
+	product(string pd_num, string pd_name, double pd_price);
 	void show();
-	int getproduct_num();
+	string getproduct_num();
 	string getproduct_name();
 	double getproduct_price();
+	void chang(int pri);
 };
 
 product::product() {
-	product_num = 0;
+	product_num = "";
 	product_name = "";
 	product_price = 0;
 }
 
-product::product(int pd_num, string pd_name, double pd_price) {
+product::product(string pd_num, string pd_name, double pd_price) {
 	product_num = pd_num;
 	product_name = pd_name;
 	product_price = pd_price;
 }
 
 void product::show() {
-	cout << product_num << product_name << product_price << endl;
+	cout <<"商品号： " << product_num <<"商品名字： "<< product_name<<"商品单价： " << product_price << endl;
 }
 
-int product::getproduct_num() {
+string product::getproduct_num() {
 	return product_num;
 }
 
@@ -84,12 +85,15 @@ double product::getproduct_price() {
 	return product_price;
 }
 
+void product::chang(int pri){
+	product_price = pri;
+}
+
 class bill {
 private:
-	//static int billcount;
 public:
-	string product_name[10000];
-	int product_number[10000],precode=0;
+	string product_name[10000] , product_number[10000];
+	int precode=0;
 	string vip_name;
 	int bill_number, data, amount[10000], vip_num;
 	double price[10000], total[10000],all=0;
@@ -99,6 +103,7 @@ public:
 	void vip_show();
 	void bill_product(product &pr,int a);
 	void get_data(int d);
+	int isvip;
 };
 
 void bill::bill_product(product & pr,int a) {
@@ -116,12 +121,13 @@ void bill::get_data(int d){
 }
 
 bill::bill(){
-
+	isvip = 0;
 }
 
 bill::bill(vipcustomer &v) {
 	vip_num = v.vip_num;
-	vip_name = v.vip_name; 
+	vip_name = v.vip_name;
+	isvip = 1;
 }
 void bill::vip_show(){
 	cout << "会员号 " << vip_num << "  会员名 " << vip_name;
@@ -133,7 +139,7 @@ void bill::vip_show(){
 
 void bill::show() {
 	for (int j = 0; j < precode; j++) {
-		cout << "  单价 " << price[j] << " 总价 " << amount[j] << " 总价 " << total[j] << endl;
+		cout << "  单价 " << price[j] << " 数量 " << amount[j] << " 总价 " << total[j] <<","<< data << endl;
 	}
 }
 
@@ -143,20 +149,25 @@ int main(){
 	product *products[10000];
 	bill *bills[10000];
 	int vip_recode = 0 , pd_recode =0 , bill_recode = 0;
-	products[pd_recode] = new product(001, "yashua", 5);
+	products[pd_recode] = new product("001", "yashua", 5);
 	person[vip_recode] = new vipcustomer(10000, "xiaoli");
 	vip_recode++;
 	pd_recode++;
-	int product_num, vip_num,fp, fpr,product_number[10000],isvip[10000],data;	//dp:person中想delete的编号   dpr：products中delete的编号  fp寻找到的编号
-	string vip_name, product_name;
+	int  vip_num, fp, fpr, isvip[10000], data;	//fp寻找到的编号
+	string vip_name, product_name, product_num, product_number[10000];
 	double product_price;
 	while (1) {
 		int i;
-		cout << "\n 1-Add vipcustomer\n 2-Reduse vipcustomer\n 3-Add product\n 4-Reduse product\n ";
-		cout << "5-Query\n 6-Query\n 7-Add bill\n 8-Reduse bill\n 9-Query\n Other-Quit\n>";
+		cout << "______________________ \n                       *\n"
+			 << "|   1-增加vip成员      *\n|   2-删除vip成员      *\n|   3-显示所有vip成员  *\n|   4-增加商品         *\n|   5-删除商品         *\n|   6-显示所有商品     *\n"
+			 <<"|   7-更改订单         *\n|   8-添加账单         *\n|   9-删除订单         *\n|   10-显示所有成员    *\n|   11-对所有账单排序  *\n|   Other-Quit         *\n"
+			 <<"_______________________*\n>";
 		cin >> i;
 		if (i == 1) {
-			cin >> vip_num >> vip_name;
+			cout << "请输入会员号： ";
+			cin >> vip_num ;
+			cout << "请输入会员名字： ";
+			cin >> vip_name;
 			person[vip_recode] = new vipcustomer(vip_num, vip_name);
 			vip_recode++;
 		}
@@ -178,12 +189,17 @@ int main(){
 				person[a]->show();
 		}
 		else if (i == 4) {
-			cin >> product_num >> product_name >> product_price;
+			cout << "请输入商品号： ";
+			cin >> product_num  ;
+			cout << "请输入商品名字： ";
+			cin >> product_name;
+			cout << "请输入商品单价： ";
+			cin >> product_price;
 			products[pd_recode] = new product(product_num, product_name, product_price);
 			pd_recode++;
 		}
 		else if (i == 5) {
-			for (int b = 0; b < vip_recode; b++) {
+			for (int b = 0; b < pd_recode; b++) {
 				cout << b << ".";
 				products[b]->show();
 			}
@@ -196,16 +212,30 @@ int main(){
 			pd_recode--;
 		}
 		else if (i == 6) {
-			for (int b = 0; b < vip_recode; b++)
+			for (int b = 0; b < pd_recode; b++)
 				products[b]->show();
 		}
 		else if (i == 7) {
+			for (int b = 0; b < vip_recode; b++) {
+				cout << "b";
+				products[b]->show();
+			}
+			int chang, price;
+			cout << "请输入想更改的序号" << endl;
+			cin >> chang ;
+			cout << "请输入更改后的单价" << endl;
+			cin >> price;
+			products[chang]->chang(price);
+		}
+		else if (i == 8) {
 			int judge = 1;
 			int judge1 = 1;
+			cout << "是会员请输入1，否则请输入0";
+			cin >> judge1;
 			while (judge1) {
-				cout << "is vip?if yes, input vip number" << endl;
+				cout << "输入会员号：" << endl;
 				int vipnumber;
-				cout << "请输入会员号";
+				cout << "请输入会员号：";
 				cin >> vipnumber;
 				for (int b = 0; b < vip_recode; b++) {
 					if (vipnumber == person[b]->vip_num) {
@@ -225,7 +255,8 @@ int main(){
 					}
 				}
 			}
-			int s, amount,sz = 0;
+			string s;
+			int  amount,sz = 0;
 			while (judge) {
 				cout << "商品序号:" ;
 				cin >> s;
@@ -239,7 +270,7 @@ int main(){
 						fpr = c;	
 						break;
 					}
-					if (s == pd_recode - 1) {
+					if (c == pd_recode - 1) {
 						cout << "没有这个商品" << endl;
 						break;
 					}
@@ -252,7 +283,7 @@ int main(){
 			bills[bill_recode]->get_data(data);
 			bill_recode++;
 		}
-		else if (i == 8) {
+		else if (i == 9) {
 			for (int d = 0; d < bill_recode; d++) {
 				if (isvip[d] == 1) {
 					cout << d << ".";
@@ -264,14 +295,19 @@ int main(){
 				}
 			}
 			int del;
-			cout << "请输入你想删除的序号";
+			cout << "请输入你想删除的序号: ";
 			cin >> del;
-			delete person[del];
-			for (int k = del; k < vip_recode; k++)
+			delete bills[del];
+			for (int k = del; k < bill_recode-1; k++) {
+				cout << "1";
 				bills[k] = bills[k + 1];
+				cout << "2";
+				if(bills[k + 1]->isvip=0)
+				bills[k]->isvip = 0;
+			}
 			bill_recode--;
 		}
-		else if (i == 9) {
+		else if (i == 10) {
 			for (int d = 0; d < bill_recode; d++) {
 				if (isvip[d] == 1) {
 					cout << d << ".";
@@ -280,6 +316,36 @@ int main(){
 				else {
 					cout << d << ".";
 					bills[d]->show();
+				}
+			}
+		}
+		else if (i == 11) {
+			bill *bill1[10000];
+			bill *t;
+			for (int i = 0; i < bill_recode; i++) {
+				bill1[i] = bills[i];
+			}
+			int r;
+			for (int j = 0; j < bill_recode; j++) {
+				for (int k = j+1; k < bill_recode; k++) {
+					if (bills[j] < bills[k]) {
+						t = bills[j];
+						bills[j] = bills[k];
+						bills[k] = t;
+					}
+
+				}
+
+			}
+			cout << "排序后";
+			for (int d = 0; d < bill_recode; d++) {
+				if (bill1[d]->isvip == 1) {
+					cout << d << ".";
+					bill1[d]->vip_show();
+				}
+				else {
+					cout << d << ".";
+					bill1[d]->show();
 				}
 			}
 		}
